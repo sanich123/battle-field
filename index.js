@@ -1,4 +1,4 @@
-import { WebSocketServer } from 'ws';
+import { WebSocketServer } from "ws";
 
 const websocketServer = new WebSocketServer({ port: 3000 });
 
