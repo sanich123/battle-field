@@ -1,6 +1,14 @@
-import { httpServer } from "./src/http_server/index.js";
+import { WebSocketServer } from 'ws';
 
-const HTTP_PORT = 8181;
+const websocketServer = new WebSocketServer({ port: 3000 });
 
-console.log(`Start static http server on the ${HTTP_PORT} port!`);
-httpServer.listen(HTTP_PORT);
+websocketServer.on("connection", function connection(ws) {
+  console.log("Start things");
+  ws.on("error", console.error);
+
+  ws.on("message", function message(data) {
+    console.log("received: %s", data);
+  });
+
+  ws.send("something");
+});
