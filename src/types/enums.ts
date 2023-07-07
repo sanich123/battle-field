@@ -1,7 +1,7 @@
 export enum TYPES {
   reg = 'reg',
   updateWinners = 'update_winners',
-  createRoom = 'create_room',
+  makeRoom = 'create_room',
   addUserToRoom = 'add_user_to_room',
   createGame = 'create_game',
   updateRoom = 'update_room',
