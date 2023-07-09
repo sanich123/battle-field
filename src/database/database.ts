@@ -1,37 +1,51 @@
-type User = { name: string; password: string };
-type ShipPositions = {
-  gameId: number;
-  ships: [
-    {
-      position: {
-        x: number;
-        y: number;
-      },
-      direction: boolean,
-      type: "small" | "medium" | "large" | "huge",
-      length: number,
-    },
-  ];
-};
+import { Rooms, ShipPositions, User } from '../types/types.js';
 
 class DataBase {
-  user: User;
+  users: User[];
+  rooms: Rooms[];
   shipPositions: ShipPositions[];
+  userIndex: number;
   constructor() {
-    this.user = {} as User;
-    this.shipPositions = [] as ShipPositions[];
+    this.users = [];
+    this.shipPositions = [];
+    this.userIndex = 0;
+    this.rooms = [];
   }
-  setPosition(positions: ShipPositions) {
+  setPositions(positions: ShipPositions) {
     this.shipPositions.push(positions);
   }
-  setUser(regObject: User) {
-    this.user = regObject;
+  setUser(name: string, id: string) {
+    this.users.push({ name, index: this.userIndex, id });
+    this.userIndex += 1;
   }
-  getPositionsLength() {
-    return this.shipPositions.length;
+  pushRoomToRooms(name: string, index: number) {
+    this.rooms.push({ roomId: this.userIndex, roomUsers: [{ name, index }] });
   }
-  getUser() {
-    return this.user;
+  getRooms() {
+    return this.rooms;
+  }
+  updateRooms(indexRoom: number, userId: string) {
+    const { index, name } = this.getNameAndIndex(userId);
+    this.rooms.map((room) => {
+      if (room.roomId === indexRoom) {
+        room.roomUsers.push({ index, name });
+      }
+    });
+    const [{ roomUsers }] = this.rooms.filter(({ roomId }) => roomId === indexRoom);
+    return roomUsers;
+  }
+  deleteRoomWithTwoMembers() {
+    this.rooms = this.rooms.filter(({roomUsers}) => roomUsers.length < 2)
+  }
+  getPositions() {
+    return this.shipPositions;
+  }
+  getNameAndIndex(userId: string) {
+    const [{ index, name, id }] = this.users.filter(({ id }) => userId === id);
+    return { index, name, id };
+  }
+  getUsers() {
+    return this.users;
   }
 }
 

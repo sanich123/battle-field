@@ -1,23 +1,25 @@
-import Server from 'ws';
+import Server, { WebSocketServer } from 'ws';
 import { database } from '../database/database.js';
 import { TYPES } from '../types/enums.js';
+import { updateRoom } from './update-room.js';
 
-export function registrateUser(ws: Server, data: string) {
-  console.log(`Received registration request.`);
+export function registrateUser(ws: Server, wsServer: WebSocketServer, data: string, id: string) {
+  const { name } = JSON.parse(data);
+  database.setUser(name, id);
 
-  const { name, password } = JSON.parse(data);
-  database.setUser({ name, password });
-  console.log(`Received data ${name} ${password} successfully saved in the database`);
+  const { name: userName, index, id: connectionId } = database.getNameAndIndex(id);
+
   const stringifiedObject = JSON.stringify({
     type: TYPES.reg,
     data: JSON.stringify({
-      name,
-      index: 0,
+      name: userName,
+      index,
       error: false,
       errorText: 'Some error',
     }),
     id: 0,
   });
   ws.send(stringifiedObject);
-  console.log(`Sent ${database.getUser().name} to front-end`);
+  console.log(`Sent user=${userName}, index=${index}, connection=${connectionId} to front-end`);
+  wsServer.clients.forEach((client) => client.send(updateRoom(id)));
 }
