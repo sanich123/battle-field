@@ -14,8 +14,8 @@ class DataBase {
   setPositions(positions: ShipPositions) {
     this.shipPositions.push(positions);
   }
-  setUser(name: string, id: string) {
-    this.users.push({ name, index: this.userIndex, id });
+  setUser(name: string, id: string, password: string) {
+    this.users.push({ name, index: this.userIndex, id, password });
     this.userIndex += 1;
   }
   pushRoomToRooms(name: string, index: number) {
@@ -41,8 +41,8 @@ class DataBase {
     return this.shipPositions;
   }
   getNameAndIndex(userId: string) {
-    const [{ index, name, id }] = this.users.filter(({ id }) => userId === id);
-    return { index, name, id };
+    const [{ index, name, id, password }] = this.users.filter(({ id }) => userId === id);
+    return { index, name, id, password };
   }
   getUsers() {
     return this.users;

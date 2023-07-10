@@ -8,21 +8,21 @@ export type User = {
   name: string;
   index: number;
   id: string;
+  password: string;
+};
+export type ShipPosition = {
+  position: {
+    x: number;
+    y: number;
+  };
+  direction: boolean;
+  type: 'small' | 'medium' | 'large' | 'huge';
+  length: number;
 };
 
 export type ShipPositions = {
   gameId: number;
-  ships: [
-    {
-      position: {
-        x: number;
-        y: number;
-      };
-      direction: boolean;
-      type: 'small' | 'medium' | 'large' | 'huge';
-      length: number;
-    },
-  ];
+  ships: ShipPosition[],
   indexPlayer: number;
   connectionId: string;
 };
