@@ -12,3 +12,11 @@ export enum TYPES {
   turn = 'turn',
   finish = 'finish',
 }
+
+export enum ShipTypes {
+  small = 'small',
+  medium = 'medium',
+  large = 'large',
+  huge = 'huge',
+}
+

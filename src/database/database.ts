@@ -35,7 +35,7 @@ class DataBase {
     return roomUsers;
   }
   deleteRoomWithTwoMembers() {
-    this.rooms = this.rooms.filter(({roomUsers}) => roomUsers.length < 2)
+    this.rooms = this.rooms.filter(({ roomUsers }) => roomUsers.length < 2);
   }
   getPositions() {
     return this.shipPositions;
@@ -46,6 +46,9 @@ class DataBase {
   }
   getUsers() {
     return this.users;
+  }
+  chooseEnemyPositions(currentPlayer: number) {
+    return this.shipPositions.filter(({ indexPlayer }) => indexPlayer !== currentPlayer)[0];
   }
 }
 

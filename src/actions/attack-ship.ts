@@ -1,32 +1,38 @@
 import { WebSocketServer } from 'ws';
-import { ShipPosition } from '../types/types.js';
 import { TYPES } from '../types/enums.js';
+import { STATUSES_SHIP } from '../utils/const.js';
 
-export function attackShip(
-  wsServer: WebSocketServer,
-  currentPlayer: string,
-  frontendData: string,
-  isShot?: ShipPosition,
-) {
-  let objectToSend = { type: TYPES.attack, id: 0, data: '' };
+export function attackShip(wsServer: WebSocketServer, currentPlayer: string, frontendData: string, status?: string) {
   const { x, y } = JSON.parse(frontendData);
-  if (isShot) {
-    const { position } = isShot;
+
+  let objectToSend = {
+    type: TYPES.attack,
+    data: '',
+    id: 0,
+  };
+
+  let rawData = {
+    position: {
+      x,
+      y,
+    },
+    currentPlayer,
+  };
+
+  if (status) {
     objectToSend = {
       ...objectToSend,
       data: JSON.stringify({
-        position,
-        currentPlayer,
-        status: 'shot',
+        ...rawData,
+        status,
       }),
     };
   } else {
     objectToSend = {
       ...objectToSend,
       data: JSON.stringify({
-        position: { x, y },
-        currentPlayer,
-        status: 'miss',
+        ...rawData,
+        status: STATUSES_SHIP.miss,
       }),
     };
   }
