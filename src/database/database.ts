@@ -7,6 +7,7 @@ class DataBase {
   userIndex: number;
   currentUser: number | undefined;
   winners: { name: string; wins: number }[];
+
   constructor() {
     this.users = [];
     this.shipPositions = [];

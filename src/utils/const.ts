@@ -18,3 +18,6 @@ export const TYPES_SHIP = {
   large: 'large',
   huge: 'huge',
 } as const;
+
+export const MAX_NUMBER_IN_TABLE = 9;
+export const MIN_NUMBER_IN_TABLE = 0;
