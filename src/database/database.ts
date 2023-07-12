@@ -5,11 +5,13 @@ class DataBase {
   rooms: Rooms[];
   shipPositions: ShipPositions[];
   userIndex: number;
+  currentUser: number | undefined;
   constructor() {
     this.users = [];
     this.shipPositions = [];
     this.userIndex = 0;
     this.rooms = [];
+    this.currentUser = undefined;
   }
   setPositions(positions: ShipPositions) {
     this.shipPositions.push(positions);
@@ -49,6 +51,18 @@ class DataBase {
   }
   chooseEnemyPositions(currentPlayer: number) {
     return this.shipPositions.filter(({ indexPlayer }) => indexPlayer !== currentPlayer)[0];
+  }
+  isCurrentUserShotedPositionsIncludesReceivedPositions(currentPlayer: number, x: number, y: number) {
+    return this.getShotedPositions(currentPlayer).find((position) => position.x === x && position.y === y);
+  }
+  getShotedPositions(currentPlayer: number) {
+    return this.shipPositions.filter(({ indexPlayer }) => indexPlayer !== currentPlayer)[0].shotedPositions;
+  }
+  setCurrentUser(value: number) {
+    this.currentUser = value;
+  }
+  getCurrentUser() {
+    return this.currentUser;
   }
 }
 

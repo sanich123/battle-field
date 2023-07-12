@@ -4,6 +4,7 @@ import { killAroundPositions } from '../utils/handle-positions.js';
 import { AllPositions } from '../types/types.js';
 import { TYPES } from '../types/enums.js';
 import { turnCourse } from './turn-course.js';
+import { database } from '../database/database.js';
 
 export function killAroundBoxes(
   wsServer: WebSocketServer,
@@ -17,6 +18,7 @@ export function killAroundBoxes(
   const allKilledArea = killAroundPositions(positionShipWithStatuses);
 
   allKilledArea.forEach(({ x, y }) => {
+    database.getShotedPositions(indexPlayer).push({ x, y });
     const sendedObject = {
       type: attack,
       id: 0,

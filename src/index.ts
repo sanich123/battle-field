@@ -8,6 +8,7 @@ const wsServer = new WebSocketServer({ port: 3000 });
 const clients: ClientsObject = {};
 
 wsServer.on('connection', (ws: Server, req: IncomingMessage) => {
+
   getStatisticInfo(wsServer, req);
   const { connectionId } = setClientsWithIds(clients, ws);
 

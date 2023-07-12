@@ -1,17 +1,22 @@
 import { database } from '../database/database.js';
-import { ClientsObject, ShipPosition } from '../types/types.js';
+import { ClientsObject } from '../types/types.js';
 import { TYPES } from '../types/enums.js';
 import { WebSocketServer } from 'ws';
 import { turnCourse } from './turn-course.js';
 import { getStringifiedObject } from '../utils/utils.js';
 import { addFullPositions } from '../utils/handle-positions.js';
 
-export function setPositions(data: string, id: string, clients: ClientsObject, wsServer: WebSocketServer) {
+export function setPositions(
+  data: string,
+  id: string,
+  clients: ClientsObject,
+  wsServer: WebSocketServer,
+) {
   const { startGame } = TYPES;
   const { gameId, ships, indexPlayer } = JSON.parse(data);
   addFullPositions(ships);
 
-  database.setPositions({ gameId, ships, indexPlayer, connectionId: id });
+  database.setPositions({ gameId, ships, indexPlayer, connectionId: id, shotedPositions: [] });
   if (database.getPositions().length === 2) {
     database.getPositions().forEach(({ indexPlayer, connectionId, ships }) => {
       clients[connectionId].send(getStringifiedObject(startGame, { ships, currentPlayerIndex: indexPlayer }));
