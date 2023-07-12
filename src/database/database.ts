@@ -6,12 +6,14 @@ class DataBase {
   shipPositions: ShipPositions[];
   userIndex: number;
   currentUser: number | undefined;
+  winners: { name: string; wins: number }[];
   constructor() {
     this.users = [];
     this.shipPositions = [];
     this.userIndex = 0;
     this.rooms = [];
     this.currentUser = undefined;
+    this.winners = [];
   }
   setPositions(positions: ShipPositions) {
     this.shipPositions.push(positions);
@@ -63,6 +65,24 @@ class DataBase {
   }
   getCurrentUser() {
     return this.currentUser;
+  }
+  checkWinnerIsExist(username: string) {
+    return this.winners.find(({ name }) => name === username);
+  }
+  setWinner(username: string) {
+    if (!this.checkWinnerIsExist(username)) {
+      this.winners.push({ name: username, wins: 1 });
+    } else {
+      this.winners.map((winner) => {
+        if (winner.name === username) {
+          winner.wins += 1;
+          return winner;
+        }
+      });
+    }
+  }
+  getWinners() {
+    return this.winners;
   }
 }
 

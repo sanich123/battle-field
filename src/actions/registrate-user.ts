@@ -4,6 +4,7 @@ import { TYPES } from '../types/enums.js';
 import { updateRoom } from './update-room.js';
 import { MESSAGES } from '../utils/const.js';
 import { getStringifiedObject, validateLoginPassword } from '../utils/utils.js';
+import { updateWinners } from './update-winners.js';
 
 export function registrateUser(ws: Server, wsServer: WebSocketServer, data: string, id: string) {
   const { loginError, passwordError, findedUserError } = MESSAGES;
@@ -16,6 +17,7 @@ export function registrateUser(ws: Server, wsServer: WebSocketServer, data: stri
     ws.send(getStringifiedObject(TYPES.reg, { name: userName, index, error: false, errorText: '' }));
     console.log(`Sent user=${userName}, index=${index}, connection=${connectionId} to front-end`);
     wsServer.clients.forEach((client) => client.send(updateRoom(id)));
+    updateWinners(wsServer);
   } else {
     let errorMessage;
     if (findedUser) errorMessage = findedUserError;

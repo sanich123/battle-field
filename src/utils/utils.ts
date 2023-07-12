@@ -1,9 +1,9 @@
 import { IncomingMessage } from 'http';
 import { WebSocketServer } from 'ws';
 import { v4 } from 'uuid';
-import { ClientsObject } from '../types/types.js';
+import { AllPositions, ClientsObject, ShipPosition } from '../types/types.js';
 import Server from 'ws';
-import { REG_EXP_PASSWORD } from './const.js';
+import { REG_EXP_PASSWORD, STATUSES_SHIP } from './const.js';
 import { database } from '../database/database.js';
 
 export function parseReceivedData(receivedData: ArrayBuffer) {
@@ -39,4 +39,30 @@ export function validateLoginPassword(login: string, password: string) {
 
 export function getStringifiedObject(type: string, data: Object) {
   return JSON.stringify({ type, data: JSON.stringify(data), id: 0 });
+}
+
+export function isEverybodyKilled(enemyShips: ShipPosition[]) {
+  return enemyShips
+    .map(({ allPositions }) => allPositions.every(({ isShoted }) => isShoted))
+    .every((boolean) => boolean);
+}
+
+export function findIndexOfShotedPositions(enemyShips: ShipPosition[], x: number, y: number) {
+  return enemyShips.findIndex(({ allPositions }) =>
+    allPositions.some((position) => position.x === x && position.y === y),
+  );
+}
+
+export function setShotedToPositions(enemyShips: ShipPosition[], index: number, x: number, y: number) {
+  return enemyShips[index].allPositions.map((position) => {
+    if (position.x === x && position.y === y) {
+      position.isShoted = true;
+      return position;
+    }
+  });
+}
+
+export function checkKilledOrInjured(shipPositionsWithStatuses: AllPositions) {
+  const { killed, shot } = STATUSES_SHIP;
+  return shipPositionsWithStatuses.every(({ isShoted }) => isShoted) ? killed : shot;
 }
