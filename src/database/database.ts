@@ -61,6 +61,16 @@ class DataBase {
   getShotedPositions(currentPlayer: number) {
     return this.shipPositions.filter(({ indexPlayer }) => indexPlayer !== currentPlayer)[0].shotedPositions;
   }
+  getAllPossiblePositions(currentPlayer: number) {
+    return this.shipPositions.filter(({ indexPlayer }) => indexPlayer !== currentPlayer)[0].allPossiblePositions;
+  }
+
+  expelPositionFromAllPositions(currentPlayer: number, x: number, y: number) {
+    const index = this.getAllPossiblePositions(currentPlayer).findIndex(
+      (position) => position.x === x && position.y === y,
+    );
+    this.getAllPossiblePositions(currentPlayer).splice(index, 1);
+  }
   setCurrentUser(value: number) {
     this.currentUser = value;
   }

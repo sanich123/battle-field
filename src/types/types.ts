@@ -37,6 +37,7 @@ export type ShipPositions = {
   indexPlayer: number;
   connectionId: string;
   shotedPositions: { x: number; y: number }[];
+  allPossiblePositions: { x: number; y: number }[];
 };
 
 export type Rooms = {

@@ -59,3 +59,15 @@ export function killAroundPositions(killedPositions: ShipPosition['allPositions'
   }
   return result;
 }
+
+export function generateAllPossiblePositions() {
+  const result = [];
+
+  for (let i = 0; i <= 9; i++) {
+    for (let n = 0; n <= 9; n++) {
+      result.push({ x: i, y: n });
+    }
+  }
+
+  return result;
+}

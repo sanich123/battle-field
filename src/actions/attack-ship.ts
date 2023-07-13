@@ -2,9 +2,13 @@ import { WebSocketServer } from 'ws';
 import { TYPES } from '../types/enums.js';
 import { STATUSES_SHIP } from '../utils/const.js';
 
-export function attackShip(wsServer: WebSocketServer, currentPlayer: string, frontendData: string, status?: string) {
-  const { x, y } = JSON.parse(frontendData);
-
+export function attackShip(
+  wsServer: WebSocketServer,
+  currentPlayer: string,
+  position: { x: number; y: number },
+  status?: string,
+) {
+  const { x, y } = position;
   let objectToSend = {
     type: TYPES.attack,
     data: '',

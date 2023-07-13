@@ -66,3 +66,12 @@ export function checkKilledOrInjured(shipPositionsWithStatuses: AllPositions) {
   const { killed, shot } = STATUSES_SHIP;
   return shipPositionsWithStatuses.every(({ isShoted }) => isShoted) ? killed : shot;
 }
+
+function getRandomInteger(min: number, max: number) {
+  return Math.floor(min + Math.random() * (max + 1 - min));
+}
+
+export function generateRandomPosition(allPossiblePositions: { x: number; y: number }[]) {
+  const randomInt = getRandomInteger(0, allPossiblePositions.length);
+  return allPossiblePositions[randomInt];
+}

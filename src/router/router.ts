@@ -29,8 +29,8 @@ export function router(
     case addShips:
       setPositions(data, connectionId, clients, wsServer);
       break;
-    case attack:
     case randomAttack:
+    case attack:
       handleAttack(data, wsServer);
       break;
     default:
