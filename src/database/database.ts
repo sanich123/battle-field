@@ -69,8 +69,11 @@ class DataBase {
     const index = this.getAllPossiblePositions(currentPlayer).findIndex(
       (position) => position.x === x && position.y === y,
     );
-    this.getAllPossiblePositions(currentPlayer).splice(index, 1);
+    if (index !== -1) {
+      this.getAllPossiblePositions(currentPlayer).splice(index, 1);
+    }
   }
+
   setCurrentUser(value: number) {
     this.currentUser = value;
   }

@@ -19,6 +19,7 @@ export function killAroundBoxes(
 
   allKilledArea.forEach(({ x, y }) => {
     database.getShotedPositions(indexPlayer).push({ x, y });
+    database.expelPositionFromAllPositions(indexPlayer, x, y);
     const sendedObject = {
       type: attack,
       id: 0,

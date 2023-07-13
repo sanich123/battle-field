@@ -16,12 +16,13 @@ import { setWinner } from './set-winner.js';
 
 export function handleAttack(frontendData: string, wsServer: WebSocketServer) {
   let { x, y, indexPlayer } = JSON.parse(frontendData);
-  if (!x || !y) {
-    const { x: randomX, y: randomY } = generateRandomPosition(database.getAllPossiblePositions(indexPlayer));
-    x = randomX;
-    y = randomY
-  }
   if (indexPlayer === database.getCurrentUser()) {
+    if (x === undefined || y === undefined) {
+      const { x: randomX, y: randomY } = generateRandomPosition(database.getAllPossiblePositions(indexPlayer));
+      x = randomX;
+      y = randomY;
+    }
+
     if (!database.isCurrentUserShotedPositionsIncludesReceivedPositions(indexPlayer, x, y)) {
       database.getShotedPositions(indexPlayer).push({ x, y });
       database.expelPositionFromAllPositions(indexPlayer, x, y);
@@ -33,10 +34,7 @@ export function handleAttack(frontendData: string, wsServer: WebSocketServer) {
       shotedPositions,
       allPossiblePositions,
     } = database.chooseEnemyPositions(indexPlayer);
-    // const { x, y } = generateRandomPosition(allPossiblePositions);
-    // database.getShotedPositions(enemyPlayer).push({ x, y });
-    // database.expelPositionFromAllPositions(enemyPlayer, x, y);
-    console.log(x, y, shotedPositions, allPossiblePositions);
+    console.log(allPossiblePositions);
     const indexOfShotedPositions = findIndexOfShotedPositions(enemyShips, x, y);
     if (indexOfShotedPositions !== -1) {
       setShotedToPositions(enemyShips, indexOfShotedPositions, x, y);

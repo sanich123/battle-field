@@ -72,6 +72,6 @@ function getRandomInteger(min: number, max: number) {
 }
 
 export function generateRandomPosition(allPossiblePositions: { x: number; y: number }[]) {
-  const randomInt = getRandomInteger(0, allPossiblePositions.length);
+  const randomInt = getRandomInteger(0, allPossiblePositions.length - 1);
   return allPossiblePositions[randomInt];
 }
