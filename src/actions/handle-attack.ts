@@ -27,14 +27,7 @@ export function handleAttack(frontendData: string, wsServer: WebSocketServer) {
       database.getShotedPositions(indexPlayer).push({ x, y });
       database.expelPositionFromAllPositions(indexPlayer, x, y);
     }
-
-    const {
-      ships: enemyShips,
-      indexPlayer: enemyPlayer,
-      shotedPositions,
-      allPossiblePositions,
-    } = database.chooseEnemyPositions(indexPlayer);
-    console.log(allPossiblePositions);
+    const { ships: enemyShips, indexPlayer: enemyPlayer } = database.chooseEnemyPositions(indexPlayer);
     const indexOfShotedPositions = findIndexOfShotedPositions(enemyShips, x, y);
     if (indexOfShotedPositions !== -1) {
       setShotedToPositions(enemyShips, indexOfShotedPositions, x, y);

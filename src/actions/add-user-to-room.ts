@@ -8,6 +8,7 @@ import { getStringifiedObject } from '../utils/utils.js';
 export function attachUserToRoom(data: string, wsServer: WebSocketServer, clients: ClientsObject, id: string) {
   const { indexRoom } = JSON.parse(data);
   const updatedUsersInRoom = database.updateRooms(indexRoom, id);
+  console.log(updatedUsersInRoom)
   database.deleteRoomWithTwoMembers();
   wsServer.clients.forEach((client) => client.send(updateRoom(id)));
   updatedUsersInRoom.forEach(({ name }) => {

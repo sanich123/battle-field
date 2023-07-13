@@ -1,7 +1,7 @@
 import { WebSocketServer } from 'ws';
 import { STATUSES_SHIP } from '../utils/const.js';
 import { killAroundPositions } from '../utils/handle-positions.js';
-import { AllPositions } from '../types/types.js';
+import { AllPositions, ShipPositions } from '../types/types.js';
 import { TYPES } from '../types/enums.js';
 import { turnCourse } from './turn-course.js';
 import { database } from '../database/database.js';
@@ -14,7 +14,7 @@ export function killAroundBoxes(
 ) {
   const { killed } = STATUSES_SHIP;
   const { attack } = TYPES;
-
+ 
   const allKilledArea = killAroundPositions(positionShipWithStatuses);
 
   allKilledArea.forEach(({ x, y }) => {
